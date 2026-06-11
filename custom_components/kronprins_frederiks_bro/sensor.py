@@ -54,11 +54,20 @@ class MyIntegrationStatusSensor(CoordinatorEntity[MyIntegrationDataUpdateCoordin
         return "mulig" if self.coordinator.data["is_possible_opening_now"] else "ikke_mulig"
 
     @property
+    def icon(self) -> str:
+        """Return icon for possible open or closed state."""
+        if self.coordinator.data["is_possible_opening_now"]:
+            return "mdi:bridge"
+        return "mdi:bridge-lock"
+
+    @property
     def extra_state_attributes(self) -> dict[str, str]:
         """Explain that green periods represent possible openings only."""
         return {
             "opening_policy": "possible_only",
             "note": "Kun mulig åbning. Broen åbner ved behov, naar baade skal passere.",
+            "dagens_forste_mulige": self.coordinator.data["first_possible_opening"],
+            "dagens_sidste_mulige": self.coordinator.data["last_possible_opening"],
         }
 
     @property
@@ -79,6 +88,7 @@ class MyIntegrationMinutesUntilNextOpeningSensor(
 
     _attr_has_entity_name = True
     _attr_name = "Næste mulige åbning"
+    _attr_icon = "mdi:timer-sand"
     _attr_native_unit_of_measurement = UnitOfTime.MINUTES
     _attr_suggested_display_precision = 0
 
@@ -102,6 +112,15 @@ class MyIntegrationMinutesUntilNextOpeningSensor(
         if delta.total_seconds() <= 0:
             return 0
         return int(delta.total_seconds() // 60)
+
+    @property
+    def extra_state_attributes(self) -> dict[str, str]:
+        """Return explanatory attributes for countdown and seasonal window."""
+        return {
+            "opening_policy": "possible_only",
+            "dagens_forste_mulige": self.coordinator.data["first_possible_opening"],
+            "dagens_sidste_mulige": self.coordinator.data["last_possible_opening"],
+        }
 
     @property
     def device_info(self):

@@ -6,7 +6,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
 
 from .api import MyIntegrationApiClient
-from .const import CONF_HOST, COORDINATOR, DOMAIN, PLATFORMS
+from .const import COORDINATOR, DOMAIN, PLATFORMS
 from .coordinator import MyIntegrationDataUpdateCoordinator
 
 
@@ -20,8 +20,7 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
     """Set up My Integration from a config entry."""
     hass.data.setdefault(DOMAIN, {})
 
-    host = entry.options.get(CONF_HOST, entry.data[CONF_HOST])
-    api = MyIntegrationApiClient(host=host)
+    api = MyIntegrationApiClient()
     coordinator = MyIntegrationDataUpdateCoordinator(hass, api)
     await coordinator.async_config_entry_first_refresh()
 

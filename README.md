@@ -17,7 +17,7 @@ Starter workspace for a Home Assistant custom integration.
 1. Clone or copy this folder into your Home Assistant config under `custom_components/kronprins_frederiks_bro`.
 2. Restart Home Assistant.
 3. Go to **Settings -> Devices & Services -> Add Integration**.
-4. Search for **My Integration** and complete the config flow.
+4. Search for **Kronprins Frederiks Bro** and complete the config flow.
 
 ## Development notes
 
@@ -40,3 +40,11 @@ Starter workspace for a Home Assistant custom integration.
 
 - Possible opening status (possible/not_possible)
 - Næste mulige åbning (nedtaelling i minutter)
+
+Status icon behavior:
+- `mdi:bridge` when possible opening is active
+- `mdi:bridge-lock` when it is outside possible opening periods
+
+Seasonal windows:
+- The integration always enforces monthly first/last opening times.
+- Winter months therefore use the shortest daily windows from the schedule table.

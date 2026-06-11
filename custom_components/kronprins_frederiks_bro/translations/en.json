@@ -6,8 +6,7 @@
         "title": "Set up Kronprins Frederiks Bro",
         "description": "Enter connection details",
         "data": {
-          "name": "Name",
-          "host": "Host"
+          "name": "Name"
         }
       }
     }
@@ -17,8 +16,7 @@
       "init": {
         "title": "Kronprins Frederiks Bro options",
         "data": {
-          "name": "Name",
-          "host": "Host"
+          "name": "Name"
         }
       }
     }

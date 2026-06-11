@@ -52,3 +52,11 @@ def test_next_opening_weekend_midday_alternating_closure():
     result = get_next_opening(now)
 
     assert result == datetime(2026, 6, 14, 13, 0, tzinfo=TZ)
+
+
+def test_next_opening_respects_winter_small_window_start():
+    now = datetime(2026, 1, 8, 8, 55, tzinfo=TZ)
+
+    result = get_next_opening(now)
+
+    assert result == datetime(2026, 1, 8, 9, 0, tzinfo=TZ)

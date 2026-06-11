@@ -5,8 +5,7 @@
         "title": "Kronprins Frederiks Bro",
         "description": "Configure your integration connection",
         "data": {
-          "name": "Name",
-          "host": "Host"
+          "name": "Name"
         }
       }
     }
@@ -16,8 +15,7 @@
       "init": {
         "title": "Kronprins Frederiks Bro options",
         "data": {
-          "name": "Name",
-          "host": "Host"
+          "name": "Name"
         }
       }
     }

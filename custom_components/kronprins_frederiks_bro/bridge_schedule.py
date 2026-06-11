@@ -140,6 +140,12 @@ def _day_type(day: date) -> str:
     return "mon_thu"
 
 
+def get_open_window(day: date) -> tuple[time, time]:
+    """Return monthly first and last possible opening time for the day type."""
+    day_type = _day_type(day)
+    return WINDOWS[day_type][day.month]
+
+
 def _floor_half_hour(moment: datetime) -> datetime:
     minute = 30 if moment.minute >= 30 else 0
     return moment.replace(minute=minute, second=0, microsecond=0)
@@ -154,7 +160,7 @@ def _ceil_half_hour(moment: datetime) -> datetime:
 
 def _is_open_slot(slot: datetime) -> bool:
     day_type = _day_type(slot.date())
-    start, end = WINDOWS[day_type][slot.month]
+    start, end = get_open_window(slot.date())
     slot_time = slot.timetz().replace(tzinfo=None)
 
     if slot_time < start or slot_time > end:

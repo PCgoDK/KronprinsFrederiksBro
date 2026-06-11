@@ -3,12 +3,11 @@
 from __future__ import annotations
 
 import voluptuous as vol
-from homeassistant.helpers import config_validation as cv
 
 from homeassistant import config_entries
 from homeassistant.core import callback
 
-from .const import CONF_HOST, CONF_NAME, DEFAULT_NAME, DOMAIN
+from .const import CONF_NAME, DEFAULT_NAME, DOMAIN
 
 
 class MyIntegrationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
@@ -19,7 +18,7 @@ class MyIntegrationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     async def async_step_user(self, user_input: dict | None = None):
         """Handle the initial step."""
         if user_input is not None:
-            await self.async_set_unique_id(user_input[CONF_HOST])
+            await self.async_set_unique_id(DOMAIN)
             self._abort_if_unique_id_configured()
             return self.async_create_entry(
                 title=user_input[CONF_NAME],
@@ -29,7 +28,6 @@ class MyIntegrationConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
         schema = vol.Schema(
             {
                 vol.Required(CONF_NAME, default=DEFAULT_NAME): str,
-                vol.Required(CONF_HOST): cv.string,
             }
         )
 
@@ -66,13 +64,6 @@ class MyIntegrationOptionsFlow(config_entries.OptionsFlow):
                         self.config_entry.data.get(CONF_NAME, DEFAULT_NAME),
                     ),
                 ): str,
-                vol.Optional(
-                    CONF_HOST,
-                    default=self.config_entry.options.get(
-                        CONF_HOST,
-                        self.config_entry.data.get(CONF_HOST, ""),
-                    ),
-                ): cv.string,
             }
         )
         return self.async_show_form(step_id="init", data_schema=schema)
