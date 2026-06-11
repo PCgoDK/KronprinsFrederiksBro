@@ -1,9 +1,9 @@
 {
-  "title": "My Integration",
+  "title": "Kronprins Frederiks Bro",
   "config": {
     "step": {
       "user": {
-        "title": "Set up My Integration",
+        "title": "Set up Kronprins Frederiks Bro",
         "description": "Enter connection details",
         "data": {
           "name": "Name",
@@ -15,7 +15,7 @@
   "options": {
     "step": {
       "init": {
-        "title": "My Integration options",
+        "title": "Kronprins Frederiks Bro options",
         "data": {
           "name": "Name",
           "host": "Host"

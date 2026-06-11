@@ -1,6 +1,6 @@
 {
   "domain": "my_integration",
-  "name": "My Integration",
+  "name": "Kronprins Frederiks Bro",
   "version": "0.1.0",
   "integration_type": "hub",
   "config_flow": true,
