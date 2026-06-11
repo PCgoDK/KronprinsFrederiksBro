@@ -4,7 +4,7 @@ from __future__ import annotations
 
 from datetime import datetime
 
-from homeassistant.components.sensor import SensorDeviceClass, SensorEntity
+from homeassistant.components.sensor import SensorEntity
 from homeassistant.const import UnitOfTime
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
@@ -28,7 +28,6 @@ async def async_setup_entry(
     async_add_entities(
         [
             MyIntegrationStatusSensor(entry, coordinator),
-            MyIntegrationNextOpeningSensor(entry, coordinator),
             MyIntegrationMinutesUntilNextOpeningSensor(entry, coordinator),
         ]
     )
@@ -73,58 +72,13 @@ class MyIntegrationStatusSensor(CoordinatorEntity[MyIntegrationDataUpdateCoordin
         }
 
 
-class MyIntegrationNextOpeningSensor(
-    CoordinatorEntity[MyIntegrationDataUpdateCoordinator], SensorEntity
-):
-    """Next possible opening timestamp sensor."""
-
-    _attr_has_entity_name = True
-    _attr_name = "Naeste mulige åbning"
-    _attr_device_class = SensorDeviceClass.TIMESTAMP
-
-    def __init__(
-        self,
-        entry: ConfigEntry,
-        coordinator: MyIntegrationDataUpdateCoordinator,
-    ) -> None:
-        super().__init__(coordinator)
-        self._entry = entry
-        self._attr_unique_id = f"{entry.entry_id}_next_opening"
-
-    @property
-    def native_value(self) -> datetime | None:
-        """Return next possible opening timestamp."""
-        value = self.coordinator.data["next_possible_opening"]
-        if isinstance(value, datetime):
-            return value
-        return None
-
-    @property
-    def extra_state_attributes(self) -> dict[str, str]:
-        """Explain that timestamp is next possible opening slot."""
-        return {
-            "opening_policy": "possible_only",
-            "note": "Tidsstemplet er naeste mulige åbningstid, ikke en garanteret åbning.",
-        }
-
-    @property
-    def device_info(self):
-        """Return device information for grouping in Home Assistant."""
-        return {
-            "identifiers": {(DOMAIN, self._entry.entry_id)},
-            "name": self._entry.options.get(CONF_NAME, self._entry.title),
-            "manufacturer": "Custom",
-            "model": "Template Integration",
-        }
-
-
 class MyIntegrationMinutesUntilNextOpeningSensor(
     CoordinatorEntity[MyIntegrationDataUpdateCoordinator], SensorEntity
 ):
     """Minutes until next possible opening."""
 
     _attr_has_entity_name = True
-    _attr_name = "Minutter til naeste mulige åbning"
+    _attr_name = "Næste mulige åbning"
     _attr_native_unit_of_measurement = UnitOfTime.MINUTES
     _attr_suggested_display_precision = 0
 

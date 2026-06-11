@@ -39,5 +39,4 @@ Starter workspace for a Home Assistant custom integration.
 ## Sensors
 
 - Possible opening status (possible/not_possible)
-- Next possible opening (timestamp)
-- Minutes until next possible opening
+- Næste mulige åbning (nedtaelling i minutter)
