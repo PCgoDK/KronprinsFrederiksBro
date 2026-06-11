@@ -38,7 +38,7 @@ class MyIntegrationStatusSensor(CoordinatorEntity[MyIntegrationDataUpdateCoordin
     """Possible opening status sensor."""
 
     _attr_has_entity_name = True
-    _attr_name = "Mulig aabning status"
+    _attr_name = "Mulig åbning status"
 
     def __init__(
         self,
@@ -59,7 +59,7 @@ class MyIntegrationStatusSensor(CoordinatorEntity[MyIntegrationDataUpdateCoordin
         """Explain that green periods represent possible openings only."""
         return {
             "opening_policy": "possible_only",
-            "note": "Kun mulig aabning. Broen aabner ved behov, naar baade skal passere.",
+            "note": "Kun mulig åbning. Broen åbner ved behov, naar baade skal passere.",
         }
 
     @property
@@ -79,7 +79,7 @@ class MyIntegrationNextOpeningSensor(
     """Next possible opening timestamp sensor."""
 
     _attr_has_entity_name = True
-    _attr_name = "Naeste mulige aabning"
+    _attr_name = "Naeste mulige åbning"
     _attr_device_class = SensorDeviceClass.TIMESTAMP
 
     def __init__(
@@ -104,7 +104,7 @@ class MyIntegrationNextOpeningSensor(
         """Explain that timestamp is next possible opening slot."""
         return {
             "opening_policy": "possible_only",
-            "note": "Tidsstemplet er naeste mulige aabningstid, ikke en garanteret aabning.",
+            "note": "Tidsstemplet er naeste mulige åbningstid, ikke en garanteret åbning.",
         }
 
     @property
@@ -124,7 +124,7 @@ class MyIntegrationMinutesUntilNextOpeningSensor(
     """Minutes until next possible opening."""
 
     _attr_has_entity_name = True
-    _attr_name = "Minutter til naeste mulige aabning"
+    _attr_name = "Minutter til naeste mulige åbning"
     _attr_native_unit_of_measurement = UnitOfTime.MINUTES
     _attr_suggested_display_precision = 0
 
