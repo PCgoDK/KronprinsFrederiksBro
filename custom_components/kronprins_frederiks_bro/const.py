@@ -1,6 +1,6 @@
 """Constants for My Integration."""
 
-DOMAIN = "my_integration"
+DOMAIN = "kronprins_frederiks_bro"
 CONF_HOST = "host"
 CONF_NAME = "name"
 DEFAULT_NAME = "Kronprins Frederiks Bro"

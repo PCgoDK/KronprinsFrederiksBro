@@ -1,7 +1,7 @@
 from datetime import datetime
 from zoneinfo import ZoneInfo
 
-from custom_components.my_integration.bridge_schedule import get_next_opening
+from custom_components.kronprins_frederiks_bro.bridge_schedule import get_next_opening
 
 TZ = ZoneInfo("Europe/Copenhagen")
 

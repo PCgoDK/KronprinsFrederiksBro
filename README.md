@@ -6,15 +6,15 @@ Starter workspace for a Home Assistant custom integration.
 
 ## Structure
 
-- `custom_components/my_integration/` integration code
-- `custom_components/my_integration/api.py` API client stub
-- `custom_components/my_integration/coordinator.py` DataUpdateCoordinator
+- `custom_components/kronprins_frederiks_bro/` integration code
+- `custom_components/kronprins_frederiks_bro/api.py` API client stub
+- `custom_components/kronprins_frederiks_bro/coordinator.py` DataUpdateCoordinator
 - `.github/copilot-instructions.md` project checklist/status
 - `pyproject.toml` lint/test placeholders
 
 ## Local setup
 
-1. Clone or copy this folder into your Home Assistant config under `custom_components/my_integration`.
+1. Clone or copy this folder into your Home Assistant config under `custom_components/kronprins_frederiks_bro`.
 2. Restart Home Assistant.
 3. Go to **Settings -> Devices & Services -> Add Integration**.
 4. Search for **My Integration** and complete the config flow.

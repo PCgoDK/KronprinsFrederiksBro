@@ -1,4 +1,4 @@
-from custom_components.my_integration.api import MyIntegrationApiClient
+from custom_components.kronprins_frederiks_bro.api import MyIntegrationApiClient
 
 
 async def test_async_get_status_returns_expected_shape():
