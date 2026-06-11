@@ -1,7 +1,7 @@
 {
   "domain": "kronprins_frederiks_bro",
   "name": "Kronprins Frederiks Bro",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "integration_type": "hub",
   "config_flow": true,
   "requirements": [],
