@@ -1,0 +1,17 @@
+[project]
+name = "ha-my-integration"
+version = "0.1.0"
+description = "Home Assistant custom integration template"
+requires-python = ">=3.12"
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.pytest.ini_options]
+addopts = "-q"
+testpaths = ["tests"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = false

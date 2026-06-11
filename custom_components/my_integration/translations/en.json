@@ -1,0 +1,26 @@
+{
+  "title": "My Integration",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Set up My Integration",
+        "description": "Enter connection details",
+        "data": {
+          "name": "Name",
+          "host": "Host"
+        }
+      }
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "My Integration options",
+        "data": {
+          "name": "Name",
+          "host": "Host"
+        }
+      }
+    }
+  }
+}

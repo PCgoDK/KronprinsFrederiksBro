@@ -1,0 +1,19 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Tooling
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+
+# Home Assistant local files
+home-assistant_v2.db
+.storage/
+
+# Editor
+.vscode/*.log
