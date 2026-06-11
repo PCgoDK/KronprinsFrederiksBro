@@ -88,6 +88,7 @@ class MyIntegrationNextOpeningSensor(
         coordinator: MyIntegrationDataUpdateCoordinator,
     ) -> None:
         super().__init__(coordinator)
+        self._entry = entry
         self._attr_unique_id = f"{entry.entry_id}_next_opening"
 
     @property
@@ -104,6 +105,16 @@ class MyIntegrationNextOpeningSensor(
         return {
             "opening_policy": "possible_only",
             "note": "Tidsstemplet er naeste mulige aabningstid, ikke en garanteret aabning.",
+        }
+
+    @property
+    def device_info(self):
+        """Return device information for grouping in Home Assistant."""
+        return {
+            "identifiers": {(DOMAIN, self._entry.entry_id)},
+            "name": self._entry.options.get(CONF_NAME, self._entry.title),
+            "manufacturer": "Custom",
+            "model": "Template Integration",
         }
 
 
@@ -123,6 +134,7 @@ class MyIntegrationMinutesUntilNextOpeningSensor(
         coordinator: MyIntegrationDataUpdateCoordinator,
     ) -> None:
         super().__init__(coordinator)
+        self._entry = entry
         self._attr_unique_id = f"{entry.entry_id}_minutes_until_next_possible_opening"
 
     @property
@@ -136,3 +148,13 @@ class MyIntegrationMinutesUntilNextOpeningSensor(
         if delta.total_seconds() <= 0:
             return 0
         return int(delta.total_seconds() // 60)
+
+    @property
+    def device_info(self):
+        """Return device information for grouping in Home Assistant."""
+        return {
+            "identifiers": {(DOMAIN, self._entry.entry_id)},
+            "name": self._entry.options.get(CONF_NAME, self._entry.title),
+            "manufacturer": "Custom",
+            "model": "Template Integration",
+        }
