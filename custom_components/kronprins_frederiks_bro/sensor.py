@@ -49,6 +49,7 @@ async def async_setup_entry(
         [
             MyIntegrationStatusSensor(entry, coordinator),
             MyIntegrationMinutesUntilNextOpeningSensor(entry, coordinator),
+            MyIntegrationNextOpeningTimeSensor(entry, coordinator),
         ]
     )
 
@@ -144,6 +145,52 @@ class MyIntegrationMinutesUntilNextOpeningSensor(
     @property
     def extra_state_attributes(self) -> dict[str, str]:
         """Return explanatory attributes for countdown and seasonal window."""
+        return {
+            "opening_policy": "possible_only",
+            "dagens_forste_mulige": self.coordinator.data["first_possible_opening"],
+            "dagens_sidste_mulige": self.coordinator.data["last_possible_opening"],
+        }
+
+    @property
+    def device_info(self):
+        """Return device information for grouping in Home Assistant."""
+        return {
+            "identifiers": {(DOMAIN, self._entry.entry_id)},
+            "name": self._entry.options.get(CONF_NAME, self._entry.title),
+            "manufacturer": "Custom",
+            "model": "Template Integration",
+        }
+
+
+class MyIntegrationNextOpeningTimeSensor(
+    CoordinatorEntity[MyIntegrationDataUpdateCoordinator], SensorEntity
+):
+    """Clock time for the next possible opening."""
+
+    _attr_has_entity_name = True
+    _attr_name = "Næste åbning klokkeslæt"
+
+    def __init__(
+        self,
+        entry: ConfigEntry,
+        coordinator: MyIntegrationDataUpdateCoordinator,
+    ) -> None:
+        super().__init__(coordinator)
+        self._entry = entry
+        self._attr_unique_id = f"{entry.entry_id}_next_opening_time"
+
+    @property
+    def native_value(self) -> str | None:
+        """Return the next opening as a clock time."""
+        next_opening = self.coordinator.data["next_possible_opening"]
+        if not isinstance(next_opening, datetime):
+            return None
+
+        return next_opening.strftime("%H:%M")
+
+    @property
+    def extra_state_attributes(self) -> dict[str, str]:
+        """Return explanatory attributes for the next opening clock time."""
         return {
             "opening_policy": "possible_only",
             "dagens_forste_mulige": self.coordinator.data["first_possible_opening"],

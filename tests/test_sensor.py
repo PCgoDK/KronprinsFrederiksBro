@@ -2,7 +2,10 @@ from datetime import datetime, timedelta
 from datetime import timezone
 from types import SimpleNamespace
 
-from custom_components.kronprins_frederiks_bro.sensor import MyIntegrationMinutesUntilNextOpeningSensor
+from custom_components.kronprins_frederiks_bro.sensor import (
+    MyIntegrationMinutesUntilNextOpeningSensor,
+    MyIntegrationNextOpeningTimeSensor,
+)
 
 
 TZ = timezone(timedelta(hours=2))
@@ -28,3 +31,13 @@ def test_minutes_until_next_opening_rounds_up(monkeypatch):
     )
 
     assert sensor.native_value == 25
+
+
+def test_next_opening_time_sensor_returns_hh_mm():
+    next_opening = datetime(2026, 6, 8, 16, 30, tzinfo=TZ)
+    coordinator = SimpleNamespace(
+        data={"next_possible_opening": next_opening, "first_possible_opening": "09:00", "last_possible_opening": "14:30"}
+    )
+    sensor = MyIntegrationNextOpeningTimeSensor(_Entry(), coordinator)
+
+    assert sensor.native_value == "16:30"
