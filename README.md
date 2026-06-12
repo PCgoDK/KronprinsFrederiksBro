@@ -4,10 +4,6 @@ Home Assistant custom integration for possible openings on Kronprins Frederiks B
 
 ![Kronprins Frederiks Bro illustration](custom_components/kronprins_frederiks_bro/assets/kronprins_frederiks_bro_illustration_1200x675.png)
 
-Alternative illustrations:
-- ![Flat icon style](custom_components/kronprins_frederiks_bro/assets/kronprins_frederiks_bro_flat.svg)
-- ![Night style](custom_components/kronprins_frederiks_bro/assets/kronprins_frederiks_bro_night.svg)
-
 Starter workspace for a Home Assistant custom integration.
 
 ## Structure
