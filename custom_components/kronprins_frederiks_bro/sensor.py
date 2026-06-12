@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import base64
 from datetime import datetime
+from pathlib import Path
 
 from homeassistant.components.sensor import SensorEntity
 from homeassistant.const import UnitOfTime
@@ -14,6 +16,24 @@ from homeassistant.util import dt as dt_util
 
 from .const import CONF_NAME, COORDINATOR, DOMAIN
 from .coordinator import MyIntegrationDataUpdateCoordinator
+
+
+def _load_png_data_uri(image_path: Path) -> str | None:
+    """Load a PNG as a data URI for use in entity_picture."""
+    if not image_path.exists():
+        return None
+
+    try:
+        encoded = base64.b64encode(image_path.read_bytes()).decode("ascii")
+    except OSError:
+        return None
+
+    return f"data:image/png;base64,{encoded}"
+
+
+_OPEN_POSSIBLE_IMAGE = _load_png_data_uri(
+    Path(__file__).parent / "assets" / "oplukkelig-bro-vejskilt-advarselsskilt.png"
+)
 
 
 async def async_setup_entry(
@@ -59,6 +79,13 @@ class MyIntegrationStatusSensor(CoordinatorEntity[MyIntegrationDataUpdateCoordin
         if self.coordinator.data["is_possible_opening_now"]:
             return "mdi:bridge"
         return "mdi:bridge-lock"
+
+    @property
+    def entity_picture(self) -> str | None:
+        """Show the user-provided picture when opening is currently possible."""
+        if self.coordinator.data["is_possible_opening_now"]:
+            return _OPEN_POSSIBLE_IMAGE
+        return None
 
     @property
     def extra_state_attributes(self) -> dict[str, str]:
