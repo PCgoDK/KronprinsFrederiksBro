@@ -1,9 +1,9 @@
 from datetime import datetime
-from zoneinfo import ZoneInfo
+from datetime import timezone, timedelta
 
 from custom_components.kronprins_frederiks_bro.bridge_schedule import get_next_opening, is_open_now
 
-TZ = ZoneInfo("Europe/Copenhagen")
+TZ = timezone(timedelta(hours=2))
 
 
 def test_next_opening_skips_closed_monday_morning():
@@ -64,6 +64,8 @@ def test_next_opening_friday_afternoon_gap():
 
 def test_is_open_now_friday_exact_slot_but_not_fifteen_minutes_later():
     assert is_open_now(datetime(2026, 6, 12, 10, 30, tzinfo=TZ)) is True
+    assert is_open_now(datetime(2026, 6, 12, 10, 34, tzinfo=TZ)) is True
+    assert is_open_now(datetime(2026, 6, 12, 10, 35, tzinfo=TZ)) is False
     assert is_open_now(datetime(2026, 6, 12, 10, 45, tzinfo=TZ)) is False
 
 

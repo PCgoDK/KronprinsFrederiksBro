@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import date, datetime, time, timedelta
 
 HALF_HOUR = timedelta(minutes=30)
+OPENING_STATUS_WINDOW = timedelta(minutes=5)
 
 
 def _t(value: str) -> time:
@@ -173,10 +174,11 @@ def _is_open_slot(slot: datetime) -> bool:
 
 
 def is_open_now(moment: datetime) -> bool:
-    """Return True if passing is possible now."""
-    if not _is_exact_half_hour(moment):
+    """Return True if passing is possible in the first five minutes of a slot."""
+    slot_start = _floor_half_hour(moment)
+    if not _is_open_slot(slot_start):
         return False
-    return _is_open_slot(moment)
+    return moment - slot_start < OPENING_STATUS_WINDOW
 
 
 def get_next_opening(moment: datetime, max_days: int = 14) -> datetime | None:

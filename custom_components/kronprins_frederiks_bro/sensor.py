@@ -136,9 +136,10 @@ class MyIntegrationMinutesUntilNextOpeningSensor(
             return None
 
         delta = next_opening - dt_util.now()
-        if delta.total_seconds() <= 0:
+        seconds = delta.total_seconds()
+        if seconds <= 0:
             return 0
-        return int(delta.total_seconds() // 60)
+        return int((seconds + 59) // 60)
 
     @property
     def extra_state_attributes(self) -> dict[str, str]:
