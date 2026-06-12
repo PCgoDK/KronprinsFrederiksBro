@@ -158,6 +158,10 @@ def _ceil_half_hour(moment: datetime) -> datetime:
     return floored + HALF_HOUR
 
 
+def _is_exact_half_hour(moment: datetime) -> bool:
+    return moment.second == 0 and moment.microsecond == 0 and moment.minute in {0, 30}
+
+
 def _is_open_slot(slot: datetime) -> bool:
     day_type = _day_type(slot.date())
     start, end = get_open_window(slot.date())
@@ -170,7 +174,9 @@ def _is_open_slot(slot: datetime) -> bool:
 
 def is_open_now(moment: datetime) -> bool:
     """Return True if passing is possible now."""
-    return _is_open_slot(_floor_half_hour(moment))
+    if not _is_exact_half_hour(moment):
+        return False
+    return _is_open_slot(moment)
 
 
 def get_next_opening(moment: datetime, max_days: int = 14) -> datetime | None:
