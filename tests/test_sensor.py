@@ -3,6 +3,8 @@ from datetime import timezone
 from types import SimpleNamespace
 
 from custom_components.kronprins_frederiks_bro.sensor import (
+    MyIntegrationFirstOpeningTimeSensor,
+    MyIntegrationLastOpeningTimeSensor,
     MyIntegrationMinutesUntilNextOpeningSensor,
     MyIntegrationNextOpeningTimeSensor,
 )
@@ -41,3 +43,29 @@ def test_next_opening_time_sensor_returns_hh_mm():
     sensor = MyIntegrationNextOpeningTimeSensor(_Entry(), coordinator)
 
     assert sensor.native_value == "16:30"
+
+
+def test_first_opening_time_sensor_returns_first_window_time():
+    coordinator = SimpleNamespace(
+        data={
+            "next_possible_opening": None,
+            "first_possible_opening": "06:30",
+            "last_possible_opening": "22:00",
+        }
+    )
+    sensor = MyIntegrationFirstOpeningTimeSensor(_Entry(), coordinator)
+
+    assert sensor.native_value == "06:30"
+
+
+def test_last_opening_time_sensor_returns_last_window_time():
+    coordinator = SimpleNamespace(
+        data={
+            "next_possible_opening": None,
+            "first_possible_opening": "06:30",
+            "last_possible_opening": "22:00",
+        }
+    )
+    sensor = MyIntegrationLastOpeningTimeSensor(_Entry(), coordinator)
+
+    assert sensor.native_value == "22:00"

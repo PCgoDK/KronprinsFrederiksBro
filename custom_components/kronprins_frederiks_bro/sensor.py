@@ -50,6 +50,8 @@ async def async_setup_entry(
             MyIntegrationStatusSensor(entry, coordinator),
             MyIntegrationMinutesUntilNextOpeningSensor(entry, coordinator),
             MyIntegrationNextOpeningTimeSensor(entry, coordinator),
+            MyIntegrationFirstOpeningTimeSensor(entry, coordinator),
+            MyIntegrationLastOpeningTimeSensor(entry, coordinator),
         ]
     )
 
@@ -196,6 +198,80 @@ class MyIntegrationNextOpeningTimeSensor(
             "dagens_forste_mulige": self.coordinator.data["first_possible_opening"],
             "dagens_sidste_mulige": self.coordinator.data["last_possible_opening"],
         }
+
+    @property
+    def device_info(self):
+        """Return device information for grouping in Home Assistant."""
+        return {
+            "identifiers": {(DOMAIN, self._entry.entry_id)},
+            "name": self._entry.options.get(CONF_NAME, self._entry.title),
+            "manufacturer": "Custom",
+            "model": "Template Integration",
+        }
+
+
+class MyIntegrationFirstOpeningTimeSensor(
+    CoordinatorEntity[MyIntegrationDataUpdateCoordinator], SensorEntity
+):
+    """Clock time for the first possible opening today."""
+
+    _attr_has_entity_name = True
+    _attr_name = "Dagens første"
+    _attr_icon = "mdi:clock-start"
+
+    def __init__(
+        self,
+        entry: ConfigEntry,
+        coordinator: MyIntegrationDataUpdateCoordinator,
+    ) -> None:
+        super().__init__(coordinator)
+        self._entry = entry
+        self._attr_unique_id = f"{entry.entry_id}_first_opening_time"
+
+    @property
+    def native_value(self) -> str | None:
+        """Return today's first possible opening as a clock time."""
+        first_opening = self.coordinator.data["first_possible_opening"]
+        if not isinstance(first_opening, str):
+            return None
+        return first_opening
+
+    @property
+    def device_info(self):
+        """Return device information for grouping in Home Assistant."""
+        return {
+            "identifiers": {(DOMAIN, self._entry.entry_id)},
+            "name": self._entry.options.get(CONF_NAME, self._entry.title),
+            "manufacturer": "Custom",
+            "model": "Template Integration",
+        }
+
+
+class MyIntegrationLastOpeningTimeSensor(
+    CoordinatorEntity[MyIntegrationDataUpdateCoordinator], SensorEntity
+):
+    """Clock time for the last possible opening today."""
+
+    _attr_has_entity_name = True
+    _attr_name = "Dagens sidste"
+    _attr_icon = "mdi:clock-end"
+
+    def __init__(
+        self,
+        entry: ConfigEntry,
+        coordinator: MyIntegrationDataUpdateCoordinator,
+    ) -> None:
+        super().__init__(coordinator)
+        self._entry = entry
+        self._attr_unique_id = f"{entry.entry_id}_last_opening_time"
+
+    @property
+    def native_value(self) -> str | None:
+        """Return today's last possible opening as a clock time."""
+        last_opening = self.coordinator.data["last_possible_opening"]
+        if not isinstance(last_opening, str):
+            return None
+        return last_opening
 
     @property
     def device_info(self):
